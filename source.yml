@@ -1,0 +1,47 @@
+# This code is licensed from CircleCI to the user under the MIT license.
+# See here for details: https://circleci.com/developer/orbs/licensing
+version: 2.1
+description: |
+    Orb allows CircleCI users to integrate Sofy.ai into their ci/cd pipeline.
+display:
+    home_url: https://sofy.ai/
+    source_url: https://github.com/SOFYDEVELOPER/sofy-app-upload-circleci-orb
+commands:
+    connect_sofy:
+        description: |
+            Execute Prompts directly to Sofy Web from CircleCi for seamless testing
+        parameters:
+            subscription_key:
+                description: Your Sofy API key (found in sofy account settings)
+                type: string
+            project_id:
+                description: 'Unique identifier for the project'        
+                type: string
+            prompt_id:
+                default: ""
+                description: ID of an existing prompt (optional if prompt is not provided)
+                type: string
+            prompt:
+                default: ""
+                description: Prompt text (optional if prompt_id is not provided) 
+                type: string
+        steps:
+            - run:
+                command: |
+                    connect() {
+                        curl --location "https://public.sofy.ai/webagent-service/public/prompt/execute" \
+                        --header "x-sofy-web-auth-key: ${SUBS_KEY}" \
+                        --header "Content-Type: application/json" \
+                        --data '{
+                        "prompt_id": "'"${PROMPT_ID}"'",
+                        "prompt": "'"${PROMPT}"'",
+                        "project_id": "'"${PROJECT_ID}"'"
+                        }'
+                    }
+                    connect
+                environment:
+                    PROMPT_ID: <<parameters.prompt_id>>
+                    SUBS_KEY: <<parameters.subscription_key>>
+                    PROMPT: <<parameters.prompt>>
+                    PROJECT_ID: <<parameters.project_id>>
+                name: Execute Prompt
