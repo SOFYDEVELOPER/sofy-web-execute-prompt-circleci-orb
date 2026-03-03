@@ -5,7 +5,7 @@ description: |
     Orb allows CircleCI users to integrate Sofy.ai into their ci/cd pipeline.
 display:
     home_url: https://sofy.ai/
-    source_url: https://github.com/SOFYDEVELOPER/sofy-app-upload-circleci-orb
+    source_url: https://github.com/SOFYDEVELOPER/sofy-web-execute-prompt-circleci-orb
 commands:
     connect_sofy:
         description: |
@@ -45,3 +45,4 @@ commands:
                     PROMPT: <<parameters.prompt>>
                     PROJECT_ID: <<parameters.project_id>>
                 name: Execute Prompt
+
